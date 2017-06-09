@@ -1,0 +1,28 @@
+FROM debian:8
+
+# http://pythonclub.com.br/configurando-um-servidor-de-producao-para-aplicacoes-python.html
+
+MAINTAINER Diego Feitosa <diegusmiestro@gmail.com>
+
+RUN apt update && apt-get install -y \
+nginx \
+supervisor \
+python3 \
+python-pip \
+python3-psycopg2
+
+RUN mkdir ~/www ~/env
+
+COPY ./config/.bashrc ~/
+
+RUN mkproject myproject
+
+COPY ./config/requirements.txt ./www
+#RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 80 8000
+
+RUN mkdir www env
+COPY ./config/nginx.conf ./www
+
+#RUN django-admin startproject doksys
