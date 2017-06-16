@@ -1,13 +1,13 @@
 version: "3"
 services:
   django:
-    image: django
+    image: doksys:django
     volumes:
       - ./app:/app
     ports:
       - "80:80"
       - "8000:8000"
-    network:
-      - interna
+    networks:
+      - webnet
 networks:
-  interna:
+  webnet:
