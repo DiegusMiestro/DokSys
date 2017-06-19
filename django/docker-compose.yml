@@ -1,15 +1,14 @@
 version: "3"
 services:
   django:
-    image: doksys:django
+    image: django-dev:alpha
     volumes:
       - ./app:/app
     ports:
       - "80:80"
       - "8000:8000"
     deploy:
-      mode: replicated
-      replicas: 1
+      mode: global
     networks:
       - interna
 networks:

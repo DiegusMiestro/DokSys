@@ -1,0 +1,14 @@
+{% extends 'base/index.html' %}
+{% block content %}
+  <h1>Dashboard</h1>
+  <h3>Últimas 5 Documentações Cadastradas</h3>
+  {% if latest %}
+    <ul>
+      {% for doc in latest %}
+      <li>&ndash;</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <h5>Não há documentos cadastrados!</h5>
+  {% endif %}
+{% endblock content %}
