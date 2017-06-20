@@ -1,0 +1,29 @@
+{% extends layout %}
+{% block content %}
+
+{% if msg %}
+{{msg}}
+{% endif %}
+
+<form class="" method="post">
+  {% csrf_token %}
+  <div class="row z-depth-1">
+    <div class="row"></div>
+    <h1 class="center-align">DokSys - Sistema de Documentação</h1>
+    <div class="input-field col s12">
+      <input id="username" name="username" type="text" class="validate">
+      <label for="username">Usuário</label>
+    </div>
+    <div class="input-field col s12">
+      <input id="password" name="password" type="password" class="validate">
+      <label for="password">Password</label>
+    </div>
+    <div class="input-field col s12">
+      <input type="submit" value="login" class="waves-effect waves-light btn-large col s12" />
+      <input type="hidden" name="next" value="{{ next }}" />
+    </div>
+    <div class="row"></div>
+  </div>
+</form>
+
+{% endblock content %}

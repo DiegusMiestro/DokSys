@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import Document, Keyword
 
+@login_required
 def index(request):
     context = {
         'layout': 'materialize/index.html',
@@ -12,6 +14,7 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+@login_required
 def latest(request):
     context = {
         'layout': 'materialize/latest.html',
@@ -23,6 +26,7 @@ def latest(request):
     }
     return render(request, 'index.html', context)
 
+@login_required
 def detail(request, id):
     context = {
         'layout': 'materialize/index.html',
@@ -30,6 +34,7 @@ def detail(request, id):
     }
     return render(request, 'detail.html', context)
 
+@login_required
 def add(request):
     keywords = Keyword.objects.all()
     context = {
