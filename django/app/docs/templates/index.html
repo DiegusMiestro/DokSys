@@ -1,7 +1,7 @@
-{% extends 'base/index.html' %}
+{% extends layout %}
 {% block content %}
-  <h1>Dashboard</h1>
-  <h3>Últimas 5 Documentações Cadastradas</h3>
+  <h1>Últimas Documentações</h1>
+  <a class="waves-effect waves-light btn" href="documents/add/"><i class="material-icons left">note_add</i>Nova Documentação</a>
   {% if latest %}
     <ul>
       {% for doc in latest %}
@@ -10,5 +10,6 @@
     </ul>
   {% else %}
     <h5>Não há documentos cadastrados!</h5>
+
   {% endif %}
 {% endblock content %}

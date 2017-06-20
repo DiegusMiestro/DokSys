@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 class Keyword(models.Model):
     title = models.CharField(max_length=30, unique=True)
     url = models.CharField(max_length=200, unique=True)
+    pub_date = models.DateTimeField('date published')
 
 class Document(models.Model):
     title = models.CharField(max_length=200, unique=True)
