@@ -1,15 +1,26 @@
 {% extends layout %}
 {% block content %}
-  <h1>Últimas Documentações</h1>
-  <a class="waves-effect waves-light btn" href="documents/add/"><i class="material-icons left">note_add</i>Nova Documentação</a>
-  {% if latest %}
-    <ul>
-      {% for doc in latest %}
-      <li>&ndash;</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <h5>Não há documentos cadastrados!</h5>
+<div class="row">
+  <a class="waves-effect waves-light btn-large col s12" href="documentations/add/">
+    Criar Nova Documentação
+  </a>
+</div>
 
-  {% endif %}
+{% if documentations %}
+<div class="collection">
+  {% for doc in documentations %}
+  <a href="/documentations/{{doc.id}}/" class="collection-item">
+    <h5 class="title">{{doc.title}}</h5>
+    <p>
+      {% for word in doc.keywords.all %}
+      <div class="chip">{{word.title}}</div>
+      {% endfor %}
+    </p>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<h5>Não há documentos cadastrados!</h5>
+
+{% endif %}
 {% endblock content %}
