@@ -1,1 +1,19 @@
-<h1>Documento ???</h1>
+{% extends layout %}
+{% block content %}
+<div class="row">
+  <a class="waves-effect waves-light btn-large col s12" href="documentations/{{document.id}}/edit/">
+    Editar Documentação
+  </a>
+</div>
+
+<h1>{{document.title}}</h1>
+<p><strong>Criado por:</strong> {{document.user}} em {{document.pub_date}}</p>
+{% for keyword in document.keywords.all %}
+<div class="chip"><a href="/documentations/keywords/{{keyword.id}}/">{{keyword.title}}</a></div>
+{% endfor %}
+<div class="row"></div>
+<div class="row"></div>
+<div class="row">
+{{document.content|safe}}
+</div>
+{% endblock content %}

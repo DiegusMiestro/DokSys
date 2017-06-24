@@ -9,6 +9,19 @@
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--Import materialize.css-->
   <link rel="stylesheet" href="{% static 'layouts/materialize/css/materialize.css' %}">
+  <style media="screen">
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+  .login-box {position: absolute;top: 0;left: 0;padding: 0;margin: 0;height: 100vh;width: 100vw;}
+  .login-box .card-title{text-shadow: 2px 2px 0px #000, -2px -2px 0px #000, -2px 2px 0px #000, 2px -2px 0px #000;}
+  </style>
 </head>
 <body>
 
@@ -41,12 +54,33 @@
   </main>
 
   {% if user.is_authenticated %}
-  <footer>Rodapé</footer>
+
+  <footer class="page-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Footer Content</h5>
+          <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+        Projeto desenvolvido com softwares livres
+      </div>
+    </div>
+  </footer>
+
   {% endif %}
 
   <!--Import jQuery before materialize.js-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script type="text/javascript" src="{% static 'layouts/materialize/js/bin/materialize.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'ckeditor/ckeditor.js' %}"></script>
+
+  <script type="text/javascript">
+  CKEDITOR.replace( 'content' );
+  </script>
 
 </body>
 </html>

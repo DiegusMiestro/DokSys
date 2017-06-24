@@ -35,9 +35,14 @@ def latest(request):
 
 @login_required
 def detail(request, id):
+    document = get_object_or_404(Document, pk=id)
     context = {
         'layout': 'materialize/index.html',
-        'document': get_object_or_404(Document, pk=id)
+        'document': document,
+        'breadcumb': [
+            {'title' : 'Documentações', 'url': 'documentations/'},
+            {'title' : document.title, 'url': 'documentations/' + str(document.id) +'/'}
+        ]
     }
     return render(request, 'detail.html', context)
 
@@ -45,7 +50,7 @@ def detail(request, id):
 def add(request):
     if request.method == "POST":
         title = request.POST.get('title')
-        url = title
+        url = urlize(title)
         content = request.POST.get('content')
         pub_date=datetime.datetime.now()
         try:
@@ -72,3 +77,39 @@ def add(request):
         ]
     }
     return render(request, 'add.html', context)
+
+@login_required
+def edit(request, id):
+    document = get_object_or_404(Document, pk=id)
+    if request.method == "POST":
+        Document.objects.filter(pk=id).update(title=request.POST.get('title'), url=urlize(request.POST.get('title')), content=request.POST.get('content'))
+        pub_date=datetime.datetime.now()
+        keywords_old = list(document.keywords.all())
+        keywords_new = []
+        for word in request.POST.get('keywords').split(","):
+            word_title = word.strip()
+            word_url = urlize(word)
+            try:
+                keyword = Keyword.objects.get(url=word_url)
+            except ObjectDoesNotExist:
+                keyword = Keyword.objects.create(title=word_title, url=word_url, pub_date=pub_date)
+            try:
+                keywords_old.remove(keyword)
+            except Exception as e:
+                document.keywords.add(keyword)
+                print('Add Keyword to Documetation')
+            keywords_new.append(keyword)
+            # import pdb; pdb.set_trace()
+            # Falta remover as Keywords que não quer mais
+            # No momento apenas adiciona novas, independentes de já existirem ou não.
+            redirect('/documentations/' + str(document.id) + '/')
+    context = {
+        'layout': 'materialize/index.html',
+        'document': document,
+        'breadcumb': [
+            {'title' : 'Documentações', 'url': 'documentations/'},
+            {'title' : document.title, 'url': 'documentations/' + str(document.id) +'/'},
+            {'title' : 'Edição', 'url' : 'documentations/' + str(document.id) + '/edit/'}
+        ]
+    }
+    return render(request, 'edit.html', context)
