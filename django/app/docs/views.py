@@ -13,25 +13,38 @@ def urlize(txt):
 def index(request):
     context = {
         'layout': 'materialize/index.html',
+        'documentations': Document.objects.order_by('-pub_date')[:5],
+        'keywords': Keyword.objects.order_by('-pub_date')[:5],
+        'breadcumb': [
+            {'title' : 'Dashboard', 'url': '/'}
+        ]
+    }
+    return render(request, 'index.html', context)
+
+
+@login_required
+def latest(request):
+    qtde = 5
+    context = {
+        'layout': 'materialize/index.html',
+        'documentations': Document.objects.order_by('-pub_date')[:qtde],
+        'keywords': Keyword.objects.order_by('-pub_date')[:qtde],
+        'breadcumb': [
+            {'title' : 'Atualizações Recentes', 'url': 'latest/'}
+        ]
+    }
+    return render(request, 'latest.html', context)
+
+@login_required
+def docs(request):
+    context = {
+        'layout': 'materialize/index.html',
         'documentations': Document.objects.order_by('-pub_date'),
         'breadcumb': [
             {'title' : 'Documentações', 'url': 'documentations/'}
         ]
     }
-    return render(request, 'index.html', context)
-
-@login_required
-def latest(request):
-    context = {
-        'layout': 'materialize/latest.html',
-        'documents_latest': Document.objects.order_by('-pub_date')[:5],
-        'keyword_latest': Keyword.objects.order_by('-pub_date')[:5],
-        'breadcumb': [
-            {'title' : 'Documentações', 'url': 'documentations/'},
-            {'title' : 'Recentes', 'url': 'documentations/latest/'}
-        ]
-    }
-    return render(request, 'index.html', context)
+    return render(request, 'documentations.html', context)
 
 @login_required
 def detail(request, id):
@@ -84,8 +97,7 @@ def edit(request, id):
     if request.method == "POST":
         Document.objects.filter(pk=id).update(title=request.POST.get('title'), url=urlize(request.POST.get('title')), content=request.POST.get('content'))
         pub_date=datetime.datetime.now()
-        keywords_old = list(document.keywords.all())
-        keywords_new = []
+        keywords_del = list(document.keywords.all())
         for word in request.POST.get('keywords').split(","):
             word_title = word.strip()
             word_url = urlize(word)
@@ -94,15 +106,12 @@ def edit(request, id):
             except ObjectDoesNotExist:
                 keyword = Keyword.objects.create(title=word_title, url=word_url, pub_date=pub_date)
             try:
-                keywords_old.remove(keyword)
+                keywords_del.remove(keyword)
             except Exception as e:
                 document.keywords.add(keyword)
-                print('Add Keyword to Documetation')
-            keywords_new.append(keyword)
-            # import pdb; pdb.set_trace()
-            # Falta remover as Keywords que não quer mais
-            # No momento apenas adiciona novas, independentes de já existirem ou não.
-            redirect('/documentations/' + str(document.id) + '/')
+        for k2d in keywords_del:
+            document.keywords.remove(k2d)
+        redirect('/documentations/' + str(document.id) + '/')
     context = {
         'layout': 'materialize/index.html',
         'document': document,
@@ -113,3 +122,9 @@ def edit(request, id):
         ]
     }
     return render(request, 'edit.html', context)
+
+@login_required
+def delete(request, id):
+    documentation = Document.objects.get(pk=id)
+    documentation.delete()
+    return redirect('/documentations/')

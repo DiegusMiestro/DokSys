@@ -20,7 +20,8 @@
     flex: 1 0 auto;
   }
   .login-box {position: absolute;top: 0;left: 0;padding: 0;margin: 0;height: 100vh;width: 100vw;}
-  .login-box .card-title{text-shadow: 2px 2px 0px #000, -2px -2px 0px #000, -2px 2px 0px #000, 2px -2px 0px #000;}
+  /*.login-box .card-title{background: rgba(0, 0, 0, .5); width: 100%;}*/
+  .login-box .card-title h1{text-shadow: 1px 1px 1px #000;}
   </style>
 </head>
 <body>
@@ -39,6 +40,7 @@
       </div>
       <div class="nav-wrapper">
         <div class="col s12 deep-purple lighten-1 black-text">
+          <a href="/" class="breadcrumb"><i class="material-icons">home</i></a>
           {% for item in breadcumb %}
           <a href="{{item.url}}" class="breadcrumb">{{item.title}}</a>
           {% endfor %}
@@ -79,7 +81,10 @@
   <script type="text/javascript" src="{% static 'ckeditor/ckeditor.js' %}"></script>
 
   <script type="text/javascript">
-  CKEDITOR.replace( 'content' );
+  ($("#content")[0]) ? CKEDITOR.replace('content') : null ;
+  (function(){
+    jQuery('.modal').modal();
+  })(jQuery);
   </script>
 
 </body>

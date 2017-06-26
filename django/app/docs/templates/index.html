@@ -1,26 +1,6 @@
 {% extends layout %}
 {% block content %}
-<div class="row">
-  <a class="waves-effect waves-light btn-large col s12" href="documentations/add/">
-    Criar Nova Documentação
-  </a>
-</div>
 
-{% if documentations %}
-<div class="collection">
-  {% for doc in documentations %}
-  <a href="/documentations/{{doc.id}}/" class="collection-item">
-    <h5 class="title">{{doc.title}}</h5>
-    <p>
-      {% for word in doc.keywords.all %}
-      <div class="chip">{{word.title}}</div>
-      {% endfor %}
-    </p>
-  </a>
-  {% endfor %}
-</div>
-{% else %}
-<h5>Não há documentos cadastrados!</h5>
 
-{% endif %}
+
 {% endblock content %}
