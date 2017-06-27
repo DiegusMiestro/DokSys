@@ -1,0 +1,47 @@
+{% extends layout %}
+{% block content %}
+
+<form method="POST">
+  {% csrf_token %}
+
+  <div class="row">
+    <button type="submit" class="waves-effect waves-light btn-large col s12">
+      Salvar
+    </button>
+  </div>
+
+  <div class="row card-panel">
+    <h5 class="col s12 center-align">Informações do Funcionário</h5>
+    <div class="input-field col s12 m4">
+      <input id="first_name" name="first_name" type="text" class="validate">
+      <label for="first_name">Primeiro Nome</label>
+    </div>
+    <div class="input-field col s12 m4">
+      <input id="last_name" name="last_name" type="text" class="validate">
+      <label for="last_name">Último Nome</label>
+    </div>
+    <div class="input-field col s12 m4">
+      <input id="email" name="email" type="text" class="validate">
+      <label for="email">Email</label>
+    </div>
+  </div>
+  <div class="row card-panel">
+    <h5 class="col s12 center-align">Acessos do Funcionário</h5>
+    <div class="input-field col s12 m4">
+      <input id="username" name="username" type="text" class="validate">
+      <label for="username">Usuário</label>
+    </div>
+    <div class="input-field col s12 m4">
+      <input id="password" name="password" type="password" class="validate">
+      <label for="password">Senha</label>
+    </div>
+    <div class="input-field col s12 m4">
+      <p>
+        <input id="is_superuser" name="is_superuser" type="checkbox" />
+        <label for="is_superuser">Super Usuário</label>
+      </p>
+    </div>
+  </div>
+</form>
+
+{% endblock content %}

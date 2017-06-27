@@ -1,0 +1,21 @@
+{% extends layout %}
+{% block content %}
+
+<h1>Lista de Usuários do Sistema</h1>
+
+<div class="row"><a href="accounts/users/add/" class="col s12 waves-effect waves-light btn-large blue">Adicionar Novo Usuário</a></div>
+
+<div class="collection">
+  {% for user in users %}
+  <a href="accounts/users/{{user.id}}/" class="collection-item">
+    {% if user.is_superuser %}
+    <span class="badge">Super Usuário</span>
+    {% endif %}
+    <span class="title"><strong>Nome:</strong> {{user.first_name}} {{user.last_name}}</span>
+      <p><strong>Usuário:&nbsp;</strong>{{user}}</p>
+      <p><strong>Quantidade de Documentações:&nbsp;</strong>{{user.document_set.all.count}}</p>
+  </a>
+  {% endfor %}
+</div>
+
+{% endblock content %}
