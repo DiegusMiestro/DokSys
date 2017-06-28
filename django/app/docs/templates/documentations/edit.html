@@ -1,0 +1,26 @@
+{% extends layout %}
+{% block content %}
+{% load joinby %}
+<form method="post">
+  {% csrf_token %}
+  <div class="row">
+    <button type="submit" class="waves-effect waves-light btn-large col s12">
+      Salvar Edição
+    </button>
+  </div>
+  <input id="id" name="id" type="hidden" class="validate" value="{{document.id}}" readonly>
+  <div class="row">
+    <div class="input-field col s12">
+      <input id="title" name="title" type="text" class="validate" value="{{document.title}}">
+      <label for="title">Título da documentação</label>
+    </div>
+    <div class="input-field col s12">
+      <input id="keywords" name="keywords" type="text" class="validate" value="{{document.keywords.all|joinby:", "}}">
+      <label for="">Palavras Chaves (Separadas por vírgula)</label>
+    </div>
+    <div class="col s12">
+      <textarea id="content" name="content">{{document.content}}</textarea>
+    </div>
+  </div>
+</form>
+{% endblock content %}
