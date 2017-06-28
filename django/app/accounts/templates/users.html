@@ -8,11 +8,13 @@
 <div class="collection">
   {% for user in users %}
   <a href="accounts/users/{{user.id}}/" class="collection-item">
-    {% if user.is_superuser %}
-    <span class="badge">Super Usuário</span>
+    {% if user.is_active %}
+    <span class="badge">Ativado</span>
+    {% else %}
+    <span class="badge">Desativado</span>
     {% endif %}
     <span class="title"><strong>Nome:</strong> {{user.first_name}} {{user.last_name}}</span>
-      <p><strong>Usuário:&nbsp;</strong>{{user}}</p>
+      <p><strong>Usuário:&nbsp;</strong>{{user}}{% if user.is_superuser %} (Administrativo) {% endif %}</p>
       <p><strong>Quantidade de Documentações:&nbsp;</strong>{{user.document_set.all.count}}</p>
   </a>
   {% endfor %}

@@ -114,6 +114,24 @@ def delete(request, id):
     return redirect('/accounts/users/')
 
 @login_required
+def active(request, id):
+    if not request.user.is_superuser:
+        return redirect('/accounts/profile/')
+    user = User.objects.get(pk=id)
+    user.is_active = True
+    user.save()
+    return redirect('/accounts/users/')
+
+@login_required
+def desactive(request, id):
+    if not request.user.is_superuser:
+        return redirect('/accounts/profile/')
+    user = User.objects.get(pk=id)
+    user.is_active = False
+    user.save()
+    return redirect('/accounts/users/')
+
+@login_required
 def profile(request):
     user = get_object_or_404(User, pk=request.user.id)
     context = {
