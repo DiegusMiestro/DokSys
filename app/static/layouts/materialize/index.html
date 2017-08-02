@@ -1,0 +1,90 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/" target="_self" />
+  <meta charset="utf-8">
+  <title>Doksys - Sistema de Documentação</title>
+  <link rel="stylesheet" href="{% static 'layouts/materialize/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'layouts/materialize/css/materialize.css' %}">
+  <style media="screen">
+  body {display: flex;min-height: 100vh;flex-direction: column;}
+  main {flex: 1 0 auto;}
+  .brand-logo, .brand-logo > img{width: 127px; display: block; z-index: 1000;}
+  .login-box {position: absolute;top: 0;left: 0;padding: 0;margin: 0;height: 100vh;width: 100vw;}
+  .login-box .card-title h1{text-shadow: 1px 1px 1px #000;}
+  .copy-left { display: inline-block; text-align: right; margin: 0px; -moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: “FlipH”; }
+  .breadcum-flex{display: flex; height: 32px; margin-left: 140px;}
+  .breadcum-flex > * {height: 32px; line-height: 32px;}
+  </style>
+</head>
+<body>
+  {% if user.is_authenticated %}
+  <header>
+    <nav class="nav-extended">
+      <div class="row">
+        <a href="/" class="brand-logo"><img src="{% static 'images/logo.svg' %}" alt="logo"></a>
+        <div class="nav-wrapper">
+          <ul class="right hide-on-med-and-down">
+            <li><a href="documentations/">Documentações</a></li>
+            <li><a href="keywords/">Palavras-Chaves</a></li>
+            {% if user.is_superuser %}
+            <li><a href="accounts/users/">Usuários</a></li>
+            {% endif %}
+            <li><a href="accounts/profile/">Perfil</a></li>
+            <li><a href="accounts/logout/">Sair</a></li>
+          </ul>
+        </div>
+        <div class="nav-content deep-purple lighten-2">
+          <div class="breadcum-flex">
+            <a href="/" class=""><i class="fa fa-home fa-2x"></i></a>
+            {% for item in breadcumb %}
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <i class="fa fa-chevron-right fa-1x"></i>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{{item.url}}" class="">{{item.title}}</a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  {% endif %}
+  <main class="container">
+    <div class="row">
+    </div>
+    <div class="row"></div>
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  {% if user.is_authenticated %}
+
+  <footer class="page-footer">
+    <div class="container">
+
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+        <span class="copy-left">&copy;</span>&nbsp;Desenvolvido com softwares livres
+        <a class="grey-text text-lighten-4 right" href="https://github.com/DiegusMiestro/DokSys" target="_blank">Github</a>
+      </div>
+    </div>
+  </footer>
+
+  {% endif %}
+
+  <!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="{% static 'layouts/materialize/js/jquery-2.1.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'layouts/materialize/js/bin/materialize.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'ckeditor/ckeditor.js' %}"></script>
+
+  <script type="text/javascript">
+  ($("#content")[0]) ? CKEDITOR.replace('content') : null ;
+  (function(){
+    jQuery('.modal').modal();
+  })(jQuery);
+  </script>
+
+</body>
+</html>
